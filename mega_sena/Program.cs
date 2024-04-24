@@ -1,12 +1,12 @@
 ﻿using System.Threading.Channels;
 
-int size = 6, comparacao = 0, referencia = 0, aux = 0, count =0;
+int size = 60, comparacao = 0, referencia = 0, aux = 0, count =0;
 int[] mega_sena = new int[size];
-int[] sena_aux = new int[size], ordenado = new int[size];
+int[] sena_aux = new int[size], ordenado = new int[size], norepet = new int[size];
 Console.WriteLine("Números sorteados:");
 for (int i = 0; i < size; i++)
 {
-    mega_sena[i] = new Random().Next(1,100);
+    mega_sena[i] = new Random().Next(1,61);
     sena_aux[i] = mega_sena[i];
     Console.Write(mega_sena[i] + " ");
 }
@@ -32,15 +32,34 @@ for (int i = 0; i < size; i++)
     Console.Write(ordenado[i] + " ");
 }
 
+int index = 0;
+bool grava = true;
+count = 0;
+for(referencia = 0;referencia < size; referencia++)
+{
+    if (grava == true)
+    {
+        norepet[index] = ordenado[referencia];
+        index++;
+    }
+    for (comparacao = referencia + 1; comparacao < size ; comparacao++)
+    {
+        if (ordenado[referencia] == ordenado[comparacao])
+        {
+            grava = false;
+            count++;
+            break;
+        }
+        else
+        {
+            grava = true;
+        }
+    }
+}
+
 Console.WriteLine("\nNúmeros ordenados não repitidos: ");
 
-for(referencia = 0; referencia < size;)
+for(referencia = 0; referencia < (size - count); referencia++)
 {
-    aux = ordenado[referencia];
-    Console.Write(aux + " ");
-    while (ordenado[referencia] == aux)
-    {
-        referencia++;
-    }
-
+    Console.Write(norepet[referencia] + " ");
 }
